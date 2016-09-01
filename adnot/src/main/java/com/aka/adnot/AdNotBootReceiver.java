@@ -9,8 +9,6 @@ import android.content.Intent;
  */
 public class AdNotBootReceiver extends BroadcastReceiver
 {
-    private static final String TAG = "MyBootReceiver";
-
     public void onReceive(Context context, Intent intent) {
         AdNotificationAlarm alarm = new AdNotificationAlarm(context);
         // Start the alarm

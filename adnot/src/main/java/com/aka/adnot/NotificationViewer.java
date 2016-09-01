@@ -55,11 +55,19 @@ public class NotificationViewer implements ImageLoader {
             mLoad.simple().build();
         }
         else {
-            mLoad.custom()
-                    .setImageLoader(NotificationViewer.this)
-                    .background(notificationModel.getImage())
-                    .setPlaceholder(R.drawable.pugnotification_ic_placeholder)
-                    .build();
+            try {
+                mLoad.custom()
+                        .setImageLoader(NotificationViewer.this)
+                        .background(notificationModel.getImage())
+                        .setPlaceholder(R.drawable.pugnotification_ic_placeholder)
+                        .build();
+            }catch(Throwable ex) {
+                try {
+                    mLoad.simple().build();
+                } catch (Throwable exp) {
+                    AdNotLogHandler.Log(LogType.ERROR, exp.getMessage());
+                }
+            }
         }
         PackageData.getInstance().setLastUpdateTime();
     }

@@ -9,7 +9,7 @@ import android.util.Log;
 /**
  * Created by S.Masoud on 2016/08/26.
  */
-class AdNotificationAlarm {
+public class AdNotificationAlarm {
     Context context;
 
     public AdNotificationAlarm(Context context) {
