@@ -14,6 +14,4 @@ public class AdNotBootReceiver extends BroadcastReceiver
         // Start the alarm
         alarm.setRecurringAlarm();
     }
-
-
 }

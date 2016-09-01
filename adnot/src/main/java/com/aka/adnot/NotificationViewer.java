@@ -12,7 +12,6 @@ import com.aka.adnot.Handlers.AdNotLogHandler;
 import com.aka.adnot.enums.LogType;
 import com.aka.adnot.helpers.ConnectivityHelper;
 import com.aka.adnot.models.NotificationModel;
-import com.aka.adnot.utils.NotificationID;
 import com.aka.adnot.utils.PabloPicasso;
 import com.aka.adnot.utils.PackageData;
 import com.squareup.picasso.Picasso;
@@ -39,6 +38,11 @@ public class NotificationViewer implements ImageLoader {
         notificationIntent.setData(Uri.parse(notificationModel.getLink()));
         PendingIntent pi = PendingIntent.getActivity(context, 0, notificationIntent, 0);
 
+        int notificationId = notificationModel.getId();
+
+        if(notificationId <= 0)
+            notificationId=1;
+
         Load mLoad = PugNotification.with(context).load()
                 .smallIcon(iconId)
                 .autoCancel(true)
@@ -47,7 +51,7 @@ public class NotificationViewer implements ImageLoader {
                 .message(notificationModel.getText())
                 .bigTextStyle(notificationModel.getText())
                 .click(pi)
-                .identifier(NotificationID.getID())
+                .identifier(notificationId)
                 .flags(Notification.DEFAULT_ALL);
 
         if(notificationModel.getImage().isEmpty())
