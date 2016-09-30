@@ -28,15 +28,14 @@ import br.com.goncalves.pugnotification.notification.PugNotification;
 public class NotificationViewer implements ImageLoader {
     private Target viewTarget;
     private static Context _context;
+    static boolean isShow=false;
     public void sendNotification(Context context, NotificationModel notificationModel) {
         _context=context;
         boolean isNew=false;
 
         int iconId=context.getApplicationInfo().icon;
 
-        Intent notificationIntent = new Intent(Intent.ACTION_VIEW);
-        notificationIntent.setData(Uri.parse(notificationModel.getLink()));
-        PendingIntent pi = PendingIntent.getActivity(context, 0, notificationIntent, 0);
+
 
         int notificationId = notificationModel.getId();
 
@@ -50,13 +49,21 @@ public class NotificationViewer implements ImageLoader {
                 .title(notificationModel.getTitle())
                 .message(notificationModel.getText())
                 .bigTextStyle(notificationModel.getText())
-                .click(pi)
                 .identifier(notificationId)
+                .priority(Notification.PRIORITY_MAX)
                 .flags(Notification.DEFAULT_ALL);
 
+        if(notificationModel.getLink()!=null) {
+            Intent notificationIntent = new Intent(Intent.ACTION_VIEW);
+            notificationIntent.setData(Uri.parse(notificationModel.getLink()));
+            PendingIntent pi = PendingIntent.getActivity(context, 0, notificationIntent, 0);
+
+            mLoad = mLoad.click(pi);
+        }
         if(notificationModel.getImage().isEmpty())
         {
             mLoad.simple().build();
+            isShow=true;
         }
         else {
             try {
@@ -65,15 +72,18 @@ public class NotificationViewer implements ImageLoader {
                         .background(notificationModel.getImage())
                         .setPlaceholder(R.drawable.pugnotification_ic_placeholder)
                         .build();
+
             }catch(Throwable ex) {
                 try {
                     mLoad.simple().build();
+                    isShow=true;
                 } catch (Throwable exp) {
                     AdNotLogHandler.Log(LogType.ERROR, exp.getMessage());
                 }
             }
         }
-        PackageData.getInstance().setLastUpdateTime();
+        if(isShow)
+            PackageData.getInstance().setLastUpdateTime();
     }
 
     private static Target getViewTarget(final OnImageLoadingCompleted onCompleted) {
@@ -81,6 +91,7 @@ public class NotificationViewer implements ImageLoader {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                 onCompleted.imageLoadingCompleted(bitmap);
+                PackageData.getInstance().setLastUpdateTime();
             }
 
             @Override

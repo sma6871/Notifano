@@ -1,5 +1,8 @@
 package com.aka.adnot.rest;
 
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -12,10 +15,17 @@ public class ApiClient {
 
 
     public static Retrofit getClient() {
+
         if (retrofit==null) {
+            OkHttpClient callfactory=new OkHttpClient()
+                    .newBuilder()
+                    .readTimeout(30, TimeUnit.SECONDS)
+                    .build();
+
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
+                    .callFactory(callfactory)
                     .build();
         }
         return retrofit;

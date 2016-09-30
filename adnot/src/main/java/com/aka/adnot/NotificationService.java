@@ -7,6 +7,7 @@ import android.content.Intent;
 import com.aka.adnot.Handlers.AdNotLogHandler;
 import com.aka.adnot.enums.LogType;
 import com.aka.adnot.models.NotificationModel;
+import com.aka.adnot.models.NotificationRequestModel;
 import com.aka.adnot.rest.ApiClient;
 import com.aka.adnot.rest.ApiInterface;
 import com.aka.adnot.utils.PackageData;
@@ -53,12 +54,16 @@ public class NotificationService extends IntentService {
     private void checkForNewNotification() {
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
-
+        String id=get_dev_id();
         Call<List<NotificationModel>> call =
                 apiService.getNewNotifications(
+                        new NotificationRequestModel(
                         PackageData.getInstance().getApiKey(),
                         PackageData.getInstance().getPackageName().replace(".","-"),
-                        PackageData.getInstance().getLastUpdateTime());
+                        PackageData.getInstance().getLastUpdateTime()
+                        ,id));
+
+        AdNotLogHandler.Log(LogType.INFO,"MASOUD: "+PackageData.getInstance().getLastUpdateTime());
 
         call.enqueue(new Callback<List<NotificationModel>>() {
             @Override
@@ -92,5 +97,10 @@ public class NotificationService extends IntentService {
         });
     }
 
+
+    static {
+        System.loadLibrary("hello-jni");
+    }
+    public native String get_dev_id();
 
 }
