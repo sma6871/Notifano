@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.aka.adnot.AdNotification;
-import com.aka.adnot.helpers.SharedPreferenceHelper;
+import com.aka.adnot.utils.PackageData;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -14,21 +14,27 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        AdNotification adNotification=new AdNotification(this,"ed89ee2d-6f5a-4884-a92d-27db3ae73240");
-        SharedPreferenceHelper.setSharedPreferenceLong(this, "LastUpdate", System.currentTimeMillis()-2000000);
-        adNotification.Start();
-
+        PackageData.getInstance().context=this;
     }
     public void OnStartClick(View view)
     {
-        AdNotification adNotification=new AdNotification(this,"ed89ee2d-6f5a-4884-a92d-27db3ae73240");
+        PackageData.getInstance().SetIsStaticTime(false);
+        AdNotification adNotification=new AdNotification(this,"1c8265b6-8c6d-4955-b940-3b1132fc2ffc");
+        adNotification.Start();
+        Toast.makeText(this,"AdNotification Started",Toast.LENGTH_LONG).show();
+    }
+
+    public void OnStartStaticClick(View view)
+    {
+        PackageData.getInstance().SetIsStaticTime(true);
+        AdNotification adNotification=new AdNotification(this,"1c8265b6-8c6d-4955-b940-3b1132fc2ffc");
         adNotification.Start();
         Toast.makeText(this,"AdNotification Started",Toast.LENGTH_LONG).show();
     }
 
     public void OnStopClick(View view)
     {
-        AdNotification adNotification=new AdNotification(this,"1");
+        AdNotification adNotification=new AdNotification(this,"1c8265b6-8c6d-4955-b940-3b1132fc2ffc");
         adNotification.Stop();
         Toast.makeText(this,"AdNotification Stopped",Toast.LENGTH_LONG).show();
     }

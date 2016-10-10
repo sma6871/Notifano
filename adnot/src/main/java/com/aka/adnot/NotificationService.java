@@ -23,6 +23,7 @@ public class NotificationService extends IntentService {
 
     private static final String ACTION_CHECK_NOTIFICATION_AD = "com.aka.adnot.action.CHKAD";
 
+
     public NotificationService() {
         super("CheckForNotificationService");
     }
@@ -41,7 +42,6 @@ public class NotificationService extends IntentService {
         if (intent != null) {
             final String action = intent.getAction();
             if (ACTION_CHECK_NOTIFICATION_AD.equals(action)) {
-//                final String param1 = intent.getStringExtra(EXTRA_PARAM1);
 //                final String param2 = intent.getStringExtra(EXTRA_PARAM2);
                 checkForNewNotification();
             }
@@ -52,18 +52,20 @@ public class NotificationService extends IntentService {
      * Method to check service for new notifications
      */
     private void checkForNewNotification() {
+
         ApiInterface apiService =
                 ApiClient.getClient().create(ApiInterface.class);
+
         String id=get_dev_id();
         Call<List<NotificationModel>> call =
                 apiService.getNewNotifications(
                         new NotificationRequestModel(
                         PackageData.getInstance().getApiKey(),
                         PackageData.getInstance().getPackageName().replace(".","-"),
-                        PackageData.getInstance().getLastUpdateTime()
+                        PackageData.getInstance().GetIsStaticTime() ? System.currentTimeMillis()-800000000 : PackageData.getInstance().getLastUpdateTime()
                         ,id));
 
-        AdNotLogHandler.Log(LogType.INFO,"MASOUD: "+PackageData.getInstance().getLastUpdateTime());
+        AdNotLogHandler.Log(LogType.INFO,"MASOUD: "+(PackageData.getInstance().GetIsStaticTime() ? System.currentTimeMillis()-800000000 : PackageData.getInstance().getLastUpdateTime()));
 
         call.enqueue(new Callback<List<NotificationModel>>() {
             @Override

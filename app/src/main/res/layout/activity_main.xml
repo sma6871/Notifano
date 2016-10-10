@@ -13,13 +13,20 @@
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="false"
         android:layout_centerInParent="true">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Start"
+            android:text="Start Static Time"
+            android:id="@+id/btnStartStatic"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:onClick="OnStartStaticClick" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start Last Update"
             android:id="@+id/btnStart"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"

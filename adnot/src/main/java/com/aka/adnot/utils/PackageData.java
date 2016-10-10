@@ -12,6 +12,7 @@ public class PackageData {
     private String ApiKeyKey="ApiKey";
     private String PackageNameKey="PackageName";
     private String LastUpdateTimeKey ="LastUpdate";
+    private String IsStaticTimeKey ="IsStaticTime";
 
     public Context context;
     private static PackageData instance;
@@ -50,5 +51,18 @@ public class PackageData {
     // save last update time in shared preferences
     public void setLastUpdateTime() {
         SharedPreferenceHelper.setSharedPreferenceLong(context, LastUpdateTimeKey, System.currentTimeMillis());
+    }
+
+
+    /*
+    * For test purposes
+    */
+    public void SetIsStaticTime(boolean isStaticTime)
+    {
+        SharedPreferenceHelper.setSharedPreferenceBoolean(context,IsStaticTimeKey,isStaticTime);
+    }
+    public boolean GetIsStaticTime()
+    {
+        return SharedPreferenceHelper.getSharedPreferenceBoolean(context,IsStaticTimeKey,false);
     }
 }
