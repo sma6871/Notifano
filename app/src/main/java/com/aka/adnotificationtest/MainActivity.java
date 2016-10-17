@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     public void OnStartClick(View view)
     {
         PackageData.getInstance().SetIsStaticTime(false);
-        AdNotification adNotification=new AdNotification(this,"1c8265b6-8c6d-4955-b940-3b1132fc2ffc");
+        AdNotification adNotification=new AdNotification(this,"d8413e7b-5b89-4290-abed-89c68872216b");
         adNotification.Start();
         Toast.makeText(this,"AdNotification Started",Toast.LENGTH_LONG).show();
     }
@@ -27,14 +27,14 @@ public class MainActivity extends AppCompatActivity {
     public void OnStartStaticClick(View view)
     {
         PackageData.getInstance().SetIsStaticTime(true);
-        AdNotification adNotification=new AdNotification(this,"1c8265b6-8c6d-4955-b940-3b1132fc2ffc");
+        AdNotification adNotification=new AdNotification(this,"d8413e7b-5b89-4290-abed-89c68872216b");
         adNotification.Start();
         Toast.makeText(this,"AdNotification Started",Toast.LENGTH_LONG).show();
     }
 
     public void OnStopClick(View view)
     {
-        AdNotification adNotification=new AdNotification(this,"1c8265b6-8c6d-4955-b940-3b1132fc2ffc");
+        AdNotification adNotification=new AdNotification(this,"d8413e7b-5b89-4290-abed-89c68872216b");
         adNotification.Stop();
         Toast.makeText(this,"AdNotification Stopped",Toast.LENGTH_LONG).show();
     }
