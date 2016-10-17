@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by S.Masoud on 2016/08/26.
  */
 public class ApiClient {
-    public static final String BASE_URL = "http://notif.evaseghi.ir/api/Notifications/";
+    public static final String BASE_URL = "http://notifano.ir/api/Notifications/";
     private static Retrofit retrofit = null;
 
 
