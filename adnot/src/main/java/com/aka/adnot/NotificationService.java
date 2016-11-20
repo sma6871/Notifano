@@ -53,50 +53,54 @@ public class NotificationService extends IntentService {
      */
     private void checkForNewNotification() {
 
-        ApiInterface apiService =
-                ApiClient.getClient().create(ApiInterface.class);
+        try {
 
-        String id=get_dev_id();
-        Call<List<NotificationModel>> call =
-                apiService.getNewNotifications(
-                        new NotificationRequestModel(
-                        PackageData.getInstance().getApiKey(),
-                        PackageData.getInstance().getPackageName().replace(".","-"),
-                        PackageData.getInstance().GetIsStaticTime() ? System.currentTimeMillis()-800000000 : PackageData.getInstance().getLastUpdateTime()
-                        ,id));
+            ApiInterface apiService =
+                    ApiClient.getClient().create(ApiInterface.class);
 
-        AdNotLogHandler.Log(LogType.INFO,"MASOUD: "+(PackageData.getInstance().GetIsStaticTime() ? System.currentTimeMillis()-800000000 : PackageData.getInstance().getLastUpdateTime()));
+            String id = get_dev_id();
+            Call<List<NotificationModel>> call =
+                    apiService.getNewNotifications(
+                            new NotificationRequestModel(
+                                    PackageData.getInstance().getApiKey(),
+                                    PackageData.getInstance().getPackageName().replace(".", "-"),
+                                    PackageData.getInstance().GetIsStaticTime() ? System.currentTimeMillis() - 800000000 : PackageData.getInstance().getLastUpdateTime()
+                                    , id));
 
-        call.enqueue(new Callback<List<NotificationModel>>() {
-            @Override
-            public void onResponse(Call<List<NotificationModel>>call, Response<List<NotificationModel>> response) {
-                if(!response.isSuccessful())
-                {
-                    try {
-                        AdNotLogHandler.Log(LogType.ERROR,response.errorBody().string());
-                    } catch (IOException e) {
-                        e.printStackTrace();
+            AdNotLogHandler.Log(LogType.INFO, "MASOUD: " + (PackageData.getInstance().GetIsStaticTime() ? System.currentTimeMillis() - 800000000 : PackageData.getInstance().getLastUpdateTime()));
+
+            call.enqueue(new Callback<List<NotificationModel>>() {
+                @Override
+                public void onResponse(Call<List<NotificationModel>> call, Response<List<NotificationModel>> response) {
+                    if (!response.isSuccessful()) {
+                        try {
+                            AdNotLogHandler.Log(LogType.ERROR, response.errorBody().string());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        return;
                     }
-                    return;
+                    List<NotificationModel> notifications = response.body();
+                    AdNotLogHandler.Log(LogType.INFO, "Number of notifications received: " + notifications.size());
+
+                    for (NotificationModel notification : notifications) {
+
+                        NotificationViewer notificationViewer = new NotificationViewer();
+                        notificationViewer.sendNotification(PackageData.getInstance().context, notification);
+                    }
+
                 }
-                List<NotificationModel> notifications = response.body();
-                AdNotLogHandler.Log(LogType.INFO, "Number of notifications received: " + notifications.size());
 
-                for (NotificationModel notification:notifications) {
-
-                    NotificationViewer notificationViewer=new NotificationViewer();
-                    notificationViewer.sendNotification(PackageData.getInstance().context,notification);
+                @Override
+                public void onFailure(Call<List<NotificationModel>> call, Throwable t) {
+                    // Log error here since request failed
+                    AdNotLogHandler.Log(LogType.ERROR,
+                            t.toString());
                 }
+            });
 
-            }
-
-            @Override
-            public void onFailure(Call<List<NotificationModel>>call, Throwable t) {
-                // Log error here since request failed
-                AdNotLogHandler.Log(LogType.ERROR,
-                        t.toString());
-            }
-        });
+        } catch (Exception ex) {
+        }
     }
 
 
