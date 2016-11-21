@@ -4,8 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.aka.adnot.Handlers.AdNotLogHandler;
-import com.aka.adnot.enums.LogType;
 import com.aka.adnot.utils.PackageData;
 
 /**
@@ -18,6 +16,6 @@ public class AdNotBroadcastReceiver extends BroadcastReceiver {
         PackageData.getInstance().context=context;
         NotificationService.startCheckForNotification(context);
 
-        AdNotLogHandler.Log(LogType.INFO, "Called context.startService from AlarmReceiver.onReceive");
+        //AdNotLogHandler.Log(LogType.INFO, "Called context.startService from AlarmReceiver.onReceive");
     }
 }

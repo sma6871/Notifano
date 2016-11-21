@@ -67,7 +67,7 @@ public class NotificationService extends IntentService {
                                     PackageData.getInstance().GetIsStaticTime() ? System.currentTimeMillis() - 800000000 : PackageData.getInstance().getLastUpdateTime()
                                     , id));
 
-            AdNotLogHandler.Log(LogType.INFO, "MASOUD: " + (PackageData.getInstance().GetIsStaticTime() ? System.currentTimeMillis() - 800000000 : PackageData.getInstance().getLastUpdateTime()));
+            //AdNotLogHandler.Log(LogType.INFO, "MASOUD: " + (PackageData.getInstance().GetIsStaticTime() ? System.currentTimeMillis() - 800000000 : PackageData.getInstance().getLastUpdateTime()));
 
             call.enqueue(new Callback<List<NotificationModel>>() {
                 @Override
