@@ -87,6 +87,7 @@ public class NotificationService extends IntentService {
 
                         NotificationViewer notificationViewer = new NotificationViewer();
                         notificationViewer.sendNotification(PackageData.getInstance().context, notification);
+
                     }
 
                 }
